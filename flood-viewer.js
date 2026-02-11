@@ -215,7 +215,7 @@ document.getElementById("btn-emergency").onclick = async function () {
       entity.polygon.height = 0;
       entity.polygon.extrudedHeight = heightValue;
 
-      entity.polygon.material = Cesium.Color.RED.withAlpha(0.95);
+      entity.polygon.material = Cesium.Color.YELLOW.withAlpha(0.95);
       entity.polygon.outline = true;
       entity.polygon.outlineColor = Cesium.Color.WHITE;
     });
@@ -231,3 +231,4 @@ document.getElementById("btn-emergency").onclick = async function () {
     btn.classList.remove("active");
   }
 };
+
