@@ -16,7 +16,7 @@ let utilityLayers = new Map();
 let utilityEntities = { road: [], rail: [], power: [] };
 
 const floodAssets = { 2008:4333819, 2016:4333063, 2017:4333831, 2018:4333835, 2020:4333837 };
-const utilityAssets = { road:4423350, rail:4424598, power:4426151 };
+const utilityAssets = { road:4440413, rail:4424598, power:4426151 };
 
 // ---------------- INIT ----------------
 async function initViewer() {
@@ -231,4 +231,5 @@ document.getElementById("btn-emergency").onclick = async function () {
     btn.classList.remove("active");
   }
 };
+
 
