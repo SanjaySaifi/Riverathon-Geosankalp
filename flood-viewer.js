@@ -5,6 +5,7 @@ Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOi
 const viewer = new Cesium.Viewer("cesiumContainer");
 
 // ---------------- GLOBALS ----------------
+let hospitalLayer = null;
 let dataSource;
 let allEntities = [];
 let highlightedEntities = [];
@@ -184,29 +185,49 @@ function updateInfrastructureAffected() {
 
 window.onload = initViewer;
 
-// ================= EMERGENCY HOSPITAL HIGHLIGHT =================
+// ================= EMERGENCY HOSPITAL LAYER =================
 
-document.getElementById("btn-emergency").onclick = function () {
+document.getElementById("btn-emergency").onclick = async function () {
 
-  clearHighlights();
+  const btn = document.getElementById("btn-emergency");
 
-  highlightedEntities = allEntities.filter(e => {
+  // If NOT loaded → Load it
+  if (!hospitalLayer) {
 
-    if (!e.properties || !e.polygon) return false;
+    const resource = await Cesium.IonResource.fromAssetId(4440222);
 
-    const rawType = e.properties.BUILD_TYPE?.getValue();
-    if (!rawType) return false;
+    hospitalLayer = await Cesium.GeoJsonDataSource.load(resource);
 
-    const type = String(rawType).toUpperCase().trim();
+    viewer.dataSources.add(hospitalLayer);
 
-    return type.includes("HOSPITAL");   // ✅ flexible match
-  });
+    // Extrude using Height attribute
+    hospitalLayer.entities.values.forEach(entity => {
 
-  highlightedEntities.forEach(e => {
-    e.polygon.material = Cesium.Color.RED.withAlpha(0.95);
-    e.polygon.outline = true;
-    e.polygon.outlineColor = Cesium.Color.WHITE;
-  });
+      if (!entity.polygon) return;
 
-  updateFloodAffected();
+      const h =
+        entity.properties?.Height ||
+        entity.properties?.height ||
+        entity.properties?.HEIGHT;
+
+      const heightValue = h ? Number(h.getValue()) : 10;
+
+      entity.polygon.height = 0;
+      entity.polygon.extrudedHeight = heightValue;
+
+      entity.polygon.material = Cesium.Color.RED.withAlpha(0.95);
+      entity.polygon.outline = true;
+      entity.polygon.outlineColor = Cesium.Color.WHITE;
+    });
+
+    btn.classList.add("active");
+
+  } else {
+
+    // If already loaded → remove it
+    viewer.dataSources.remove(hospitalLayer);
+    hospitalLayer = null;
+
+    btn.classList.remove("active");
+  }
 };
