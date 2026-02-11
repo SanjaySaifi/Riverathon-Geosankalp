@@ -186,32 +186,21 @@ window.onload = initViewer;
 
 // ================= EMERGENCY HOSPITAL HIGHLIGHT =================
 
-document.getElementById("btn-emergency").addEventListener("click", function () {
+document.getElementById("btn-emergency").onclick = function () {
 
-  let hospitalCount = 0;
+  // Clear previous highlights
+  clearHighlights();
 
-  viewer.entities.values.forEach(function (entity) {
-
-    if (entity.properties && entity.properties.type) {
-
-      const type = entity.properties.type.getValue();
-
-      if (type === "HOSPITAL" || type === "Hospital" || type === "hospital") {
-
-        // Highlight hospital buildings
-        if (entity.polygon) {
-          entity.polygon.material = Cesium.Color.RED.withAlpha(0.8);
-          entity.polygon.outline = true;
-          entity.polygon.outlineColor = Cesium.Color.WHITE;
-        }
-
-        hospitalCount++;
-      }
-    }
+  // Filter hospital buildings
+  highlightedEntities = allEntities.filter(e => {
+    const type = e.properties?.BUILD_TYPE?.getValue();
+    return type === "HOSPITAL" || type === "Hospital" || type === "hospital";
   });
 
-  alert("Emergency Mode Activated\nHospitals Highlighted: " + hospitalCount);
+  // Highlight them
+  highlightedEntities.forEach(e => {
+    e.polygon.material = Cesium.Color.RED.withAlpha(0.9);
+  });
 
-});
-
-
+  updateFloodAffected();
+};
