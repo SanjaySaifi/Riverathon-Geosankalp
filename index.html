@@ -193,6 +193,34 @@ select option {
   display: block;
   opacity: 0.9;
 }
+  /* ================= EMERGENCY RESPONSE BUTTON ================= */
+#emergencySection {
+  margin-top: 12px;
+  text-align: center;
+}
+
+#emergencyBtn {
+  background-color: #d32f2f;   /* strong emergency red */
+  color: #ffffff;
+  border: none;
+  padding: 12px 24px;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+#emergencyBtn:hover {
+  background-color: #b71c1c;   /* darker red on hover */
+}
+
+#emergencyText {
+  margin-top: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #ffffff;
+}
 /* ================= AFFECTED PANELS ================= */
 
 #floodCount,
@@ -330,6 +358,7 @@ select option {
 <script src="flood-viewer.js"></script>
 </body>
 </html>
+
 
 
 
