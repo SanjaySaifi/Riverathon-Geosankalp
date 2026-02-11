@@ -188,18 +188,24 @@ window.onload = initViewer;
 
 document.getElementById("btn-emergency").onclick = function () {
 
-  // Clear previous highlights
   clearHighlights();
 
-  // Filter hospital buildings
   highlightedEntities = allEntities.filter(e => {
-    const type = e.properties?.BUILD_TYPE?.getValue();
-    return type === "HOSPITAL" || type === "Hospital" || type === "hospital";
+
+    if (!e.properties || !e.polygon) return false;
+
+    const rawType = e.properties.BUILD_TYPE?.getValue();
+    if (!rawType) return false;
+
+    const type = String(rawType).toUpperCase().trim();
+
+    return type.includes("HOSPITAL");   // ✅ flexible match
   });
 
-  // Highlight them
   highlightedEntities.forEach(e => {
-    e.polygon.material = Cesium.Color.RED.withAlpha(0.9);
+    e.polygon.material = Cesium.Color.RED.withAlpha(0.95);
+    e.polygon.outline = true;
+    e.polygon.outlineColor = Cesium.Color.WHITE;
   });
 
   updateFloodAffected();
