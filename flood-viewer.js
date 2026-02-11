@@ -47,6 +47,36 @@ async function initViewer() {
     new Cesium.HeadingPitchRange(-6, Cesium.Math.toRadians(-40), 3000)
   );
 
+    // ================= ADDITIONAL SHAPEFILE (KML 4440385) =================
+  try {
+
+    const resourceKML = await Cesium.IonResource.fromAssetId(4440385);
+
+    const kmlDataSource = await Cesium.KmlDataSource.load(resourceKML, {
+      camera: viewer.scene.camera,
+      canvas: viewer.scene.canvas,
+    });
+
+    viewer.dataSources.add(kmlDataSource);
+
+    // 🔶 Force solid yellow fill
+    kmlDataSource.entities.values.forEach(entity => {
+      if (entity.polygon) {
+
+        entity.polygon.material = new Cesium.ColorMaterialProperty(
+          Cesium.Color.YELLOW.withAlpha(0.2)
+        );
+
+        entity.polygon.outline = true;
+        entity.polygon.outlineColor = Cesium.Color.YELLOW;
+        entity.polygon.fill = true;   // 🔥 IMPORTANT
+      }
+    });
+
+  } catch (error) {
+    console.log("KML Load Error:", error);
+  }
+
   initPanels();
 }
 
@@ -231,5 +261,6 @@ document.getElementById("btn-emergency").onclick = async function () {
     btn.classList.remove("active");
   }
 };
+
 
 
