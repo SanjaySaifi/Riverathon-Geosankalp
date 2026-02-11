@@ -184,4 +184,34 @@ function updateInfrastructureAffected() {
 
 window.onload = initViewer;
 
+// ================= EMERGENCY HOSPITAL HIGHLIGHT =================
+
+document.getElementById("btn-emergency").addEventListener("click", function () {
+
+  let hospitalCount = 0;
+
+  viewer.entities.values.forEach(function (entity) {
+
+    if (entity.properties && entity.properties.type) {
+
+      const type = entity.properties.type.getValue();
+
+      if (type === "HOSPITAL" || type === "Hospital" || type === "hospital") {
+
+        // Highlight hospital buildings
+        if (entity.polygon) {
+          entity.polygon.material = Cesium.Color.RED.withAlpha(0.8);
+          entity.polygon.outline = true;
+          entity.polygon.outlineColor = Cesium.Color.WHITE;
+        }
+
+        hospitalCount++;
+      }
+    }
+  });
+
+  alert("Emergency Mode Activated\nHospitals Highlighted: " + hospitalCount);
+
+});
+
 
