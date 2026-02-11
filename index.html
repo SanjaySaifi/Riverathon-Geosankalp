@@ -235,6 +235,39 @@ select option {
   border-bottom: 1px solid #1e3c72;
   padding-bottom: 4px;
 }
+/* ================= EMERGENCY PANEL ================= */
+
+#emergencyPanel {
+  margin-top: 18px;
+  padding: 14px;
+  background: #b71c1c;   /* strong emergency red */
+  border-radius: 6px;
+  text-align: center;
+  color: white;
+}
+
+#emergencyPanel h2 {
+  margin: 0 0 10px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.emergency-btn {
+  background: white;
+  color: #b71c1c;
+  border: none;
+  padding: 12px;
+  width: 100%;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.emergency-btn:hover {
+  background: #ffe5e5;
+}
+  
 </style>
 
 <!-- ================= TOP PANEL ================= -->
@@ -324,6 +357,11 @@ select option {
   <strong>Team Geo-Sankalp</strong><br>
 
 </div>
+  <!-- ================= EMERGENCY PANEL ================= -->
+<div id="emergencyPanel">
+  <h2>Emergency Dial - 112</h2>
+  <button id="btn-emergency" class="emergency-btn">Emergency Services</button>
+</div>
 </div>
 
 <div id="cesiumContainer"></div>
@@ -331,6 +369,7 @@ select option {
 <script src="flood-viewer.js"></script>
 </body>
 </html>
+
 
 
 
